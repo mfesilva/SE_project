@@ -83,7 +83,7 @@ public class MBwayView {
 		return null;
 	}
 	
-	public String splitInsuranceMbway() throws AccountException {
+	public void splitInsuranceMbway() throws AccountException {
 		Integer number_fam_member_int = Integer.parseInt(aux[1]);
 		Integer amount_int = Integer.parseInt(aux[2]);
 		Split_Insurance_MBwayController controller = new Split_Insurance_MBwayController(number_fam_member_int, amount_int, clients);
@@ -93,32 +93,51 @@ public class MBwayView {
 			String command_friend = aux_friend[0];
 			
 			if (command_friend.equals(new String("friend"))) {
-				String phone_fam_member = aux_friend[1];
-				String amount_friend = aux_friend[2];
-				Integer amount_int_friend = Integer.parseInt(amount_friend);
-
-				if (controller.confirmFriend(phone_fam_member) == false) {
-					return "Friend " + phone_fam_member + " is not registered.";
-				} else {
-					controller.addFriend(phone_fam_member, amount_int_friend);
-				}
+				processFriend(aux_friend, controller);
+				
 			} else if (command_friend.equals(new String("end"))) {
-				if (controller.confirmMembersNumber() == 0) {
-					return "Oh no! One family member is missing.";
-				} else if (controller.confirmMembersNumber() == 1) {
-					return "Oh no! Too many family members.";
-				}
+				processConfirmFriends(controller);
 				break;
 				}
 			}
 		if (controller.confirmInsuranceValue() == false) {
-			return "Something is wrong. Is the insurance amount right?";
+			System.out.println("Something is wrong. Is the insurance amount right?");
+			fromUser();
 		} else {
-			if (controller.payInsurance() == false) {
-				return "Oh no! One family member doesn’t have money to pay!";
-			} else {
-				return "Insurance paid successfully!";
-			}
+			processPayInsurance(controller);
+		}
+	}
+	
+	public void processFriend(String[] aux_friend, Split_Insurance_MBwayController controller) throws AccountException {
+		String phone_fam_member = aux_friend[1];
+		String amount_friend = aux_friend[2];
+		Integer amount_int_friend = Integer.parseInt(amount_friend);
+
+		if (controller.confirmFriend(phone_fam_member) == false) {
+			System.out.println("Friend " + phone_fam_member + " is not registered.");
+			fromUser();
+		} else {
+			controller.addFriend(phone_fam_member, amount_int_friend);
+		}
+	}
+	
+	public void processConfirmFriends(Split_Insurance_MBwayController controller) throws AccountException {
+		if (controller.confirmMembersNumber() == 0) {
+			System.out.println("Oh no! One family member is missing.");
+			fromUser();
+		} else if (controller.confirmMembersNumber() == 1) {
+			System.out.println("Oh no! Too many family members.");
+			fromUser();
+		}
+	}
+	
+	public void processPayInsurance(Split_Insurance_MBwayController controller) throws AccountException {
+		if (controller.payInsurance() == false) {
+			System.out.println("Oh no! One family member doesn’t have money to pay!");
+			fromUser();
+		} else {
+			System.out.println("Insurance paid successfully!");
+			fromUser();
 		}
 	}
 	
