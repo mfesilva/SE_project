@@ -18,34 +18,31 @@ public class MBwayView {
 		this.clients = clients;
 	}
 	
-	public void FromUser() throws AccountException {
+	public void fromUser() throws AccountException { 
 		
-		Scanner in = new Scanner(System.in);	
+		Scanner in = new Scanner(System.in);	 
 		
 		while (true) {
-			String command_entry = in.nextLine();
-			String[] aux = command_entry.split("\\s+");
+			String[] aux = in.nextLine().split("\\s+");
 			String command = aux[0]; 
 
 			if (command.equals(new String("associate-mbway"))) {
-				associateMbway();
-				}
+				associateMbway();}
+			
 			else if (command.equals(new String("confirm-mbway"))) {
-				confirmMbway();
-				}
+				confirmMbway();}
+			
 			else if (command.equals(new String("mbway-transfer"))) {
-				transferMbway();
-			}
+				transferMbway();}
+			
 			else if (command.equals(new String("mbway-split-insurance"))) {
-				splitInsuranceMbway();
-			}
+				splitInsuranceMbway();}
+			
 			else if (command.equals(new String("exit"))) {
 				in.close();
-				break;
-				}
-		}
+				break;}
+			}
     }
-	
 	
 	public String associateMbway() throws AccountException {
 		associateMbway();
@@ -87,15 +84,12 @@ public class MBwayView {
 	}
 	
 	public String splitInsuranceMbway() throws AccountException {
-		String number_fam_member = aux[1];
-		Integer number_fam_member_int = Integer.parseInt(number_fam_member);
-		String amount = aux[2];
-		Integer amount_int = Integer.parseInt(amount);
+		Integer number_fam_member_int = Integer.parseInt(aux[1]);
+		Integer amount_int = Integer.parseInt(aux[2]);
 		Split_Insurance_MBwayController controller = new Split_Insurance_MBwayController(number_fam_member_int, amount_int, clients);
 		
 		while (true) {
-			String command_entry_friend = in.nextLine();
-			String[] aux_friend = command_entry_friend.split("\\s+");
+			String[] aux_friend = in.nextLine().split("\\s+");
 			String command_friend = aux_friend[0];
 			
 			if (command_friend.equals(new String("friend"))) {
